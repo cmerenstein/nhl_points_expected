@@ -1,4 +1,5 @@
 import glob
+import sys
 
 def add_points(team, points):
 	global team_points
@@ -56,10 +57,43 @@ for season in glob.glob("*csv"):
 				games_played[i][team_points[team][i]] = []
 				games_played[i][team_points[team][i]].append(team_points[team][-1])
 
-for i in range(83):
-	for points in games_played[i].keys():
-		mean = sum(games_played[i][points])/len(games_played[i][points])
-		print(i, points, mean)
-	
-	
+with open("expected_points.json", 'w') as out:
+	out.write("{\"data\": [\n")
+	for i in range(83):
+		num_points = len(games_played[i].keys())
+		j = 1
+		for points in games_played[i].keys():
+			out.write("{\"Games_Played\": ")
+			out.write(str(i) + ",\n")
+			out.write("\"Points\": " + str(points) + "}")
+			if j < num_points or i != 82:
+				out.write(",\n")
+			else:
+				out.write("\n")
+			j += 1
+	out.write("]}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
